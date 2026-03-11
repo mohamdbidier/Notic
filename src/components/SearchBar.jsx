@@ -1,43 +1,12 @@
-import { createNote } from "../services/db"
-import { useStore } from "../store/useStore"
+export default function Sidebar(){
 
-export default function SearchBar() {
+return(
 
-const setSearch = useStore(s => s.setSearch)
-const addNote = useStore(s => s.addNote)
+<div className="w-60 border-r p-4 hidden md:block bg-white dark:bg-slate-900">
 
-async function newNote(){
+<h2 className="font-semibold mb-4">Folders</h2>
 
-const note = {
-title:"New Note",
-content:"",
-folderId:null,
-createdAt:Date.now(),
-updatedAt:Date.now()
-}
-
-const id = await createNote(note)
-
-addNote({...note,id})
-
-}
-
-return (
-
-<div className="p-3 border-b flex gap-2">
-
-<input
-placeholder="Search notes..."
-className="flex-1 p-2 border rounded"
-onChange={(e)=>setSearch(e.target.value)}
-/>
-
-<button
-onClick={newNote}
-className="bg-indigo-500 text-white px-3 py-2 rounded"
->
-New Note
-</button>
+<p className="text-sm text-gray-400">All Notes</p>
 
 </div>
 
