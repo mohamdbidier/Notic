@@ -1,31 +1,43 @@
-import FolderSidebar from "./FolderSidebar"
+import Sidebar from "./Sidebar"
 import NotesList from "./NotesList"
 import NoteEditor from "./NoteEditor"
+import Topbar from "./Topbar"
 import AIChat from "./AIChat"
-import SearchBar from "./SearchBar"
 import { useStore } from "../store/useStore"
 
-export default function Layout() {
+export default function Layout(){
 
-  const activeNote = useStore((s) => s.activeNote)
+const activeNote = useStore(s=>s.activeNote)
 
-  return (
+return(
 
-    <div className="flex h-screen">
+<div className="flex w-full">
 
-      <FolderSidebar />
+<Sidebar/>
 
-      <div className="flex flex-col flex-1">
+<div className="flex flex-col flex-1">
 
-        <SearchBar />
+<Topbar/>
 
-        {activeNote ? <NoteEditor /> : <NotesList />}
+{activeNote?
 
-      </div>
+<NoteEditor/>
 
-      <AIChat />
+:
 
-    </div>
+<NotesList/>
 
-  )
+}
+
+</div>
+
+
+<AIChat/>
+
+
+</div>
+
+)
+
+}
 }
