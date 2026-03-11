@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* App base styles */
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, Arial, sans-serif;
+body{
+margin:0;
+font-family: Inter, system-ui, sans-serif;
+background:#f8fafc;
+}
+
+.dark body{
+background:#0f172a;
 }
