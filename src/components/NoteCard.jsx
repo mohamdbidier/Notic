@@ -1,25 +1,30 @@
 import { useStore } from "../store/useStore"
 
-export default function NoteCard({ note }) {
+export default function NoteCard({note}){
 
-  const setActiveNote = useStore(s => s.setActiveNote)
+const setActive = useStore(s=>s.setActiveNote)
 
-  return (
+return(
 
-    <div
-      onClick={() => setActiveNote(note)}
-      className="p-4 bg-surface dark:bg-darksurface rounded cursor-pointer hover:opacity-80"
-    >
+<div
+onClick={()=>setActive(note)}
+className="bg-white dark:bg-slate-800 p-4 rounded-xl shadow cursor-pointer"
+>
 
-      <h2 className="font-bold mb-2">
-        {note.title || "Untitled"}
-      </h2>
+<h3 className="font-semibold">
 
-      <p className="text-sm">
-        {note.content?.slice(0,100)}
-      </p>
+{note.title}
 
-    </div>
+</h3>
 
-  )
+<p className="text-sm text-gray-400 mt-2">
+
+{note.content.slice(0,100)}
+
+</p>
+
+</div>
+
+)
+
 }
