@@ -1,49 +1,37 @@
-export async function askAI(message, notes) {
+export async function askAI(message,notes){
 
-  const API_KEY = import.meta.env.VITE_OPENAI_KEY
+const key = import.meta.env.VITE_OPENAI_KEY
 
-  const systemPrompt = "You are Notic, an AI assistant that helps users manage and understand their notes. Be concise and helpful."
+const context = notes.map(n=>`Title:${n.title}\n${n.content}`).join("\n\n")
 
-  const userNotes = notes
-    .map(n => `Title: ${n.title}\nContent: ${n.content}`)
-    .join("\n\n")
+const res = await fetch("https://api.openai.com/v1/chat/completions",{
 
-  try {
+method:"POST",
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+headers:{
+"Content-Type":"application/json",
+"Authorization":`Bearer ${key}`
 
-      method: "POST",
+},
 
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`
-      },
+body:JSON.stringify({
 
-      body: JSON.stringify({
+model:"gpt-4o-mini",
 
-        model: "gpt-4o-mini",
+messages:[
 
-        messages: [
-          { role: "system", content: systemPrompt },
-          {
-            role: "user",
-            content: `My notes:\n${userNotes}\n\nQuestion: ${message}`
-          }
-        ]
+{role:"system",content:"You are Notic AI assistant helping organize notes."},
 
-      })
+{role:"user",content:`Notes:\n${context}\n\n${message}`}
 
-    })
+]
 
-    const data = await response.json()
+})
 
-    return data.choices?.[0]?.message?.content || "AI failed"
+})
 
-  } catch (error) {
+const data = await res.json()
 
-    console.error("AI request failed", error)
+return data.choices[0].message.content
 
-    return "AI service unavailable"
-
-  }
 }
