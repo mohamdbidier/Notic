@@ -1,14 +1,41 @@
-import {create} from "zustand"
+import { create } from "zustand"
 
-export const useStore=create((set)=>({
-notes:[],
-selectedNote:null,
+export const useStore = create((set) => ({
 
-addNote:(note)=>set(state=>({notes:[...state.notes,note]})),
+  notes: [],
+  folders: [],
+  activeNote: null,
+  searchQuery: "",
+  darkMode: false,
 
-updateNote:(id,content)=>set(state=>({
-notes:state.notes.map(n=>n.id===id?{...n,content}:n)
-})),
+  setNotes: (notes) => set({ notes }),
 
-setSelected:(note)=>set({selectedNote:note})
+  addNote: (note) => set((state) => ({
+    notes: [...state.notes, note]
+  })),
+
+  updateNote: (updated) => set((state) => ({
+    notes: state.notes.map(n => n.id === updated.id ? updated : n)
+  })),
+
+  deleteNote: (id) => set((state) => ({
+    notes: state.notes.filter(n => n.id !== id)
+  })),
+
+  setFolders: (folders) => set({ folders }),
+
+  addFolder: (folder) => set((state) => ({
+    folders: [...state.folders, folder]
+  })),
+
+  deleteFolder: (id) => set((state) => ({
+    folders: state.folders.filter(f => f.id !== id)
+  })),
+
+  setActiveNote: (note) => set({ activeNote: note }),
+
+  toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
+
+  setSearch: (q) => set({ searchQuery: q })
+
 }))
