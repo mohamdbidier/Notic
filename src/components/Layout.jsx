@@ -7,33 +7,23 @@ import { useStore } from "../store/useStore"
 
 export default function Layout(){
 
-const activeNote = useStore(s=>s.activeNote)
+const activeNote = useStore(s => s.activeNote)
 
-return(
+return (
 
 <div className="flex w-full">
 
-<Sidebar/>
+<Sidebar />
 
 <div className="flex flex-col flex-1">
 
-<Topbar/>
+<Topbar />
 
-{activeNote?
-
-<NoteEditor/>
-
-:
-
-<NotesList/>
-
-}
+{activeNote ? <NoteEditor /> : <NotesList />}
 
 </div>
 
-
-<AIChat/>
-
+<AIChat />
 
 </div>
 
