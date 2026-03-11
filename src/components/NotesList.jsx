@@ -1,62 +1,53 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { getNotes } from "../services/db"
 import { useStore } from "../store/useStore"
 import NoteCard from "./NoteCard"
 
-export default function NotesList() {
+export default function NotesList(){
 
-  const setNotes = useStore(s => s.setNotes)
-  const notes = useStore(s => s.notes)
-  const search = useStore(s => s.searchQuery)
+const notes = useStore(s=>s.notes)
+const setNotes = useStore(s=>s.setNotes)
 
-  const [loading, setLoading] = useState(true)
+useEffect(()=>{
 
-  useEffect(() => {
+async function load(){
 
-    async function load() {
+const data = await getNotes()
 
-      try {
+setNotes(data)
 
-        const n = await getNotes()
+}
 
-        setNotes(n)
+load()
 
-      } catch (err) {
+},[])
 
-        console.error("Failed loading notes", err)
 
-      } finally {
+if(!notes.length)
 
-        setLoading(false)
+return(
 
-      }
+<div className="flex flex-1 items-center justify-center text-gray-400">
 
-    }
+No notes yet
 
-    load()
+</div>
 
-  }, [])
+)
 
-  if (loading) return <div className="p-6">Loading notes...</div>
 
-  const filtered = notes.filter(n =>
-    n.title?.toLowerCase().includes(search.toLowerCase()) ||
-    n.content?.toLowerCase().includes(search.toLowerCase())
-  )
+return(
 
-  if (!filtered.length) {
-    return <div className="p-6">No notes found</div>
-  }
+<div className="grid md:grid-cols-3 gap-4 p-6">
 
-  return (
+{notes.map(n=>
 
-    <div className="grid md:grid-cols-3 gap-4 p-4">
+<NoteCard key={n.id} note={n}/>
 
-      {filtered.map(note => (
-        <NoteCard key={note.id} note={note} />
-      ))}
+)}
 
-    </div>
+</div>
 
-  )
+)
+
 }
