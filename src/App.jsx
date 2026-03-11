@@ -1,17 +1,26 @@
+import { useEffect } from "react"
+import Layout from "./components/Layout"
+import { useStore } from "./store/useStore"
 
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import Home from "./pages/Home"
-import Editor from "./pages/Editor"
-import AIAssistant from "./pages/AIAssistant"
+export default function App() {
 
-export default function App(){
-return(
-<BrowserRouter>
-<Routes>
-<Route path="/" element={<Home/>}/>
-<Route path="/editor/:id" element={<Editor/>}/>
-<Route path="/ai" element={<AIAssistant/>}/>
-</Routes>
-</BrowserRouter>
-)
+  const darkMode = useStore((s) => s.darkMode)
+
+  useEffect(() => {
+    try {
+      if (darkMode) {
+        document.documentElement.classList.add("dark")
+      } else {
+        document.documentElement.classList.remove("dark")
+      }
+    } catch (error) {
+      console.error("Dark mode toggle failed", error)
+    }
+  }, [darkMode])
+
+  return (
+    <div className="h-screen bg-background dark:bg-darkbg text-text dark:text-darktext">
+      <Layout />
+    </div>
+  )
 }
