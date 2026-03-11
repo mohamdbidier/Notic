@@ -1,26 +1,26 @@
-import { useEffect } from "react"
 import Layout from "./components/Layout"
 import { useStore } from "./store/useStore"
+import { useEffect } from "react"
 
-export default function App() {
+export default function App(){
 
-  const darkMode = useStore((s) => s.darkMode)
+const dark = useStore(s=>s.darkMode)
 
-  useEffect(() => {
-    try {
-      if (darkMode) {
-        document.documentElement.classList.add("dark")
-      } else {
-        document.documentElement.classList.remove("dark")
-      }
-    } catch (error) {
-      console.error("Dark mode toggle failed", error)
-    }
-  }, [darkMode])
+useEffect(()=>{
 
-  return (
-    <div className="h-screen bg-background dark:bg-darkbg text-text dark:text-darktext">
-      <Layout />
-    </div>
-  )
+if(dark) document.documentElement.classList.add("dark")
+else document.documentElement.classList.remove("dark")
+
+},[dark])
+
+return(
+
+<div className="h-screen flex">
+
+<Layout/>
+
+</div>
+
+)
+
 }
